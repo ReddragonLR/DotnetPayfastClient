@@ -70,11 +70,11 @@ jobs:
         name: nugetPackage
 
     - name: Prep packages
-      run: dotnet nuget add source --username ReddragonLR --password ${{ secrets.PACKAGE_API_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ReddragonLR/index.json"
+      run: dotnet nuget add source --username ReddragonLR --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ReddragonLR/index.json"
 
     - name: 'Nuget push - GitHub'
       if: needs.build.outputs.CommitsSinceVersionSource > 0 #Only release if there has been a commit/version change
-      run: dotnet nuget push nugetPackage/*.nupkg --api-key ${{ secrets.PACKAGE_API_TOKEN }} --source "github"
+      run: dotnet nuget push nugetPackage/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source "github"
 
     - name: 'Nuget push - Nuget'
       if: needs.build.outputs.CommitsSinceVersionSource > 0 #Only release if there has been a commit/version change
