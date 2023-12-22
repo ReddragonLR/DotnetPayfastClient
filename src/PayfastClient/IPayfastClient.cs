@@ -1,10 +1,11 @@
 ﻿using PayfastClient.Models;
+using PayfastClient.Models.InitateTransaction;
 using Refit;
 
 namespace PayfastClient
 {
     public interface IPayfastClient
     {
-        Task<string> InitateTransaction(string itemName, double amount);
+        Task<InitiateTransactionResponse> InitateTransaction(string itemName, double amount);
     }
 }
