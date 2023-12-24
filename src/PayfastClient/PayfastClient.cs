@@ -1,27 +1,29 @@
-﻿using PayfastClient.Models;
-using PayfastClient.Models.InitateTransaction;
-using Refit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using PayfastClient.Models.InitateTransaction;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PayfastClient
 {
     public class PayfastClient : IPayfastClient
     {
-        public PayfastClient(string merchantId, string merchantKey, string passphrase)
+        public PayfastClient(string merchantId, string merchantKey, string passphrase, string initiatePaymentUrl)
         {
             MerchantId = merchantId;
             MerchantKey = merchantKey;
             Passphrase = passphrase;
+            try
+            {
+                InitiatePaymentUrl = new Uri(initiatePaymentUrl);
+            }
+            catch
+            {
+                throw new ArgumentException($"Invalid url: [{initiatePaymentUrl}]");
+            }
         }
 
         public string MerchantId { get; }
         public string MerchantKey { get; }
         public string Passphrase { get; }
-        public Uri InitiatePaymentUrl => new Uri("https://www.payfast.co.za/eng/process");
+        public Uri InitiatePaymentUrl { get; }
 
         public async Task<InitiateTransactionResponse> InitateTransaction(string itemName, double amount)
         {

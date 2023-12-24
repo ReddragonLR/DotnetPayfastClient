@@ -7,7 +7,7 @@ namespace PayfastClient.Test
         [SetUp]
         public void Setup()
         {
-            _client = new PayfastClient("merchantIdTest", "merhcantKeyTest", "passphraseTest");
+            _client = new PayfastClient("merchantIdTest", "merhcantKeyTest", "passphraseTest", "https://www.payfast.co.za/eng/process");
         }
 
         [Test]
