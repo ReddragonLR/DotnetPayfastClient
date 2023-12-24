@@ -48,13 +48,13 @@ jobs:
         echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
 
     - name: 'Nuget Pack'
-      run: dotnet pack 'src/Paygate.Client/Paygate.Client.csproj' --configuration Release -p:PackageVersion='${{ steps.gitversion.outputs.SemVer }}'
+      run: dotnet pack 'src/PayfastClient/PayfastClient.csproj' --configuration Release -p:PackageVersion='${{ steps.gitversion.outputs.SemVer }}'
 
     - name: Upload NuGet package to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: nugetPackage
-        path: src/Paygate.Client/bin/Release
+        path: src/PayfastClient/bin/Release
 
   release:
     permissions: write-all  
