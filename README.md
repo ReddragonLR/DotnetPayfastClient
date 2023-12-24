@@ -1,5 +1,5 @@
 # DotnetPayfastClient
-Payfast client for dotnet core
+Payfast client for dotnet core 6
 
 Fees are as follows (as of 12 October 2023)
 - Per Transaction
