@@ -25,19 +25,24 @@ namespace PayfastClient
         public string Passphrase { get; }
         public Uri InitiatePaymentUrl { get; }
 
-        public async Task<InitiateTransactionResponse> InitateTransaction(string itemName, double amount)
+        public async Task<InitiateTransactionResponse> InitateTransaction(string itemName, double amount, string return_url, string cancel_url, string notify_url, string payment_method)
         {
-            var request = new InitiateTransactionRequest(Passphrase, MerchantId, MerchantKey, amount, itemName);
+            var request = new InitiateTransactionRequest(Passphrase, MerchantId, MerchantKey, return_url, cancel_url, notify_url, payment_method, amount, itemName);
             StringBuilder htmlFormBuilder = new StringBuilder();
+            Dictionary<string, string> metadata = new Dictionary<string, string>();
             htmlFormBuilder.Append($"<form action=\"{InitiatePaymentUrl.AbsoluteUri}\" method=\"POST\">");
             foreach (var property in request.ExtractChecksumValues())
             {
                 htmlFormBuilder.Append($"<input type=\"hidden\" name=\"{property.Name}\" value=\"{property.Value}\">");
+                metadata.Add(property.Name, property.Value);
             }
             htmlFormBuilder.Append($"<input type=\"hidden\" name=\"signature\" value=\"{request.ExtractChecksumValuesStringUrlEncodedMD5()}\">");
+            metadata.Add("signature", request.ExtractChecksumValuesStringUrlEncodedMD5());
+
             htmlFormBuilder.Append("<input type=\"submit\">");
             htmlFormBuilder.Append("</form>");
-            return await Task.FromResult(new InitiateTransactionResponse { FormHTML = htmlFormBuilder.ToString() });
+
+            return await Task.FromResult(new InitiateTransactionResponse { FormHTML = htmlFormBuilder.ToString(), Metadata = metadata });
         }
     }
 }

@@ -15,7 +15,7 @@ namespace PayfastClient.Test
         {
             try
             {
-                var response = await _client.InitateTransaction("testItem", 200.00);
+                var response = await _client.InitateTransaction("testItem", 200.00, "https://www.example.com/return", "https://www.example.com/cancel", "https://www.example.com/notify", "cc");
             }
             catch(Exception ex)
             {
